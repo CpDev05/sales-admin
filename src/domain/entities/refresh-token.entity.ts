@@ -1,11 +1,10 @@
 import { Entity } from './entity';
-import { User } from './user.entity';
 
 export interface RefreshTokenProps {
   tokenHash: string;
   expiresAt: Date;
   revokedAt?: Date;
-  userId: User;
+  userId: string;
   device?: string;
   ipAddress?: string;
   userAgent?: string;
@@ -29,7 +28,7 @@ export class RefreshToken extends Entity<RefreshTokenProps> {
     return this.props.revokedAt;
   }
 
-  get userId(): User {
+  get userId(): string {
     return this.props.userId;
   }
 
@@ -47,5 +46,17 @@ export class RefreshToken extends Entity<RefreshTokenProps> {
 
   get createdAt(): Date {
     return this.props.createdAt;
+  }
+
+  get isRevoked(): boolean {
+    return Boolean(this.props.revokedAt);
+  }
+
+  get isExpired(): boolean {
+    return this.props.expiresAt.getTime() <= Date.now();
+  }
+
+  revoke(revokedAt: Date): void {
+    this.props.revokedAt = revokedAt;
   }
 }
