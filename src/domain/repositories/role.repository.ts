@@ -1,5 +1,7 @@
 import { Role } from '../entities/role.entity';
 
+export const ROLE_REPOSITORY = Symbol('ROLE_REPOSITORY');
+
 export interface RoleRepository {
   create(role: Role): Promise<Role>;
 

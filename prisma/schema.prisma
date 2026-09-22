@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String         @id @db.VarChar(36)
+  firstName    String         @db.VarChar(120)
+  lastName     String         @db.VarChar(120)
+  email        String         @unique @db.VarChar(255)
+  passwordHash String         @db.VarChar(255)
+  status       String         @db.VarChar(40)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  roles        UserRole[]
+  refreshTokens RefreshToken[]
+}
+
+model Role {
+  id          String           @id @db.VarChar(36)
+  name        String           @unique @db.VarChar(80)
+  description String           @db.VarChar(255)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  permissions RolePermission[]
+  users       UserRole[]
+}
+
+model Permission {
+  id          String           @id @db.VarChar(36)
+  code        String           @unique @db.VarChar(120)
+  name        String           @db.VarChar(120)
+  description String           @db.VarChar(255)
+  module      String           @db.VarChar(80)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  roles       RolePermission[]
+}
+
+model UserRole {
+  userId String @db.VarChar(36)
+  roleId String @db.VarChar(36)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model RolePermission {
+  roleId       String @db.VarChar(36)
+  permissionId String @db.VarChar(36)
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model RefreshToken {
+  id         String    @id @db.VarChar(36)
+  tokenHash  String    @db.VarChar(255)
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  userId     String    @db.VarChar(36)
+  device     String?   @db.VarChar(120)
+  ipAddress  String?   @db.VarChar(120)
+  userAgent  String?   @db.VarChar(255)
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

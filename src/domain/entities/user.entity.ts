@@ -30,11 +30,31 @@ export class User extends Entity<UserProps> {
     return this.props.email;
   }
 
+  get passwordHash(): string {
+    return this.props.passwordHash;
+  }
+
   get status(): UserStatus {
     return this.props.status;
   }
 
   get roles(): Role[] {
     return this.props.roles;
+  }
+
+  get createdAt(): Date {
+    return this.props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this.props.updatedAt;
+  }
+
+  get roleNames(): string[] {
+    return this.props.roles.map((role) => role.name);
+  }
+
+  get isActive(): boolean {
+    return this.props.status === UserStatus.ACTIVE;
   }
 }

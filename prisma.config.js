@@ -1,0 +1,10 @@
+/// <reference types="node" />
+import path from 'node:path';
+import process from 'node:process';
+import { defineConfig } from 'prisma/config';
+export default defineConfig({
+    schema: path.join('prisma', 'schema.prisma'),
+    datasource: {
+        url: process.env.DIRECT_URL ?? process.env.DATABASE_URL,
+    },
+});
