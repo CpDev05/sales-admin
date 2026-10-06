@@ -142,6 +142,20 @@ export class PrismaRoleRepository implements RoleRepository {
         description: 'Read inventory',
         module: 'inventory',
       },
+      {
+        id: 'permission-products-read',
+        code: 'products.read',
+        name: 'Read products',
+        description: 'Read products',
+        module: 'products',
+      },
+      {
+        id: 'permission-products-manage',
+        code: 'products.manage',
+        name: 'Manage products',
+        description: 'Manage products',
+        module: 'products',
+      },
     ];
 
     const persistedPermissions = await Promise.all(
