@@ -73,3 +73,15 @@ model RefreshToken {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Product {
+  id          String    @id @db.VarChar(36)
+  name        String    @db.VarChar(120)
+  description String?   @db.VarChar(500)
+  price       Float
+  status      String    @db.VarChar(40)
+  sku         String?   @unique @db.VarChar(80)
+  category    String?   @db.VarChar(100)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

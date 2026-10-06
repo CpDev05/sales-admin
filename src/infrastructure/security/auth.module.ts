@@ -83,5 +83,13 @@ import { SystemDateService } from './system-date.service';
       useClass: SystemDateService,
     },
   ],
+  exports: [
+    PassportModule,
+    JwtStrategy,
+    HASH_PORT,
+    TOKEN_PORT,
+    UUID_PORT,
+    DATE_PORT,
+  ],
 })
 export class AuthModule {}
